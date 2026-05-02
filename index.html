@@ -52,7 +52,7 @@
     "ctaPrimary": "Submit Application",
     "ctaSecondary": "Explore Pathways"
   },
-  "eventBanner": "📅 Sunday, 3 May 2026  |  🕐 6:30 – 8:30 PM  |  📍 AIS Campus, Gate 15",
+  "eventBanner": "📅 Monday, 4 May 2026  |  🕐 6:30 – 8:30 PM  |  📍 AIS Campus, Gate 15",
   "about": {
     "sectionTitle": "About the Evening",
     "sectionSub": "What to expect at the Orientation Evening",
@@ -82,8 +82,8 @@
   "pathways": {
     "sectionTitle": "American or British Pathway",
     "sectionSub": "Compare the two tracks side by side",
-    "headerBritish": "🇺🇸 American",
-    "headerAmerican": "🇬🇧 British",
+    "headerAmerican": "🇺🇸 American",
+    "headerBritish": "🇬🇧 British",
     "rows": [
       {
         "label": "Qualification",
@@ -125,8 +125,8 @@
   "journey": {
     "sectionTitle": "Journey Map",
     "sectionSub": "The full Grade 9 through Grade 12 progression",
-    "tabBritish": "🇺🇸 American",
-    "tabAmerican": "🇬🇧 British",
+    "tabAmerican": "🇺🇸 American",
+    "tabBritish": "🇬🇧 British",
     "british": [
       {
         "grade": "Grade 9",
@@ -578,8 +578,8 @@
   "equivalency": {
     "sectionTitle": "Certificate Equivalency Guide",
     "sectionSub": "University recognition requirements by country",
-    "britishLabel": "🇺🇸 American Pathway",
-    "americanLabel": "🇬🇧 British Pathway",
+    "americanLabel": "🇺🇸 American Pathway",
+    "britishLabel": "🇬🇧 British Pathway",
     "disclaimer": "Requirements may change. Verify directly with the respective Ministry of Education.",
     "countries": {
       "saudi": {
@@ -657,7 +657,7 @@
     "sectionSub": "Important dates for the transition process",
     "items": [
       {
-        "date": "3 May 2026",
+        "date": "4 May 2026",
         "title": "Orientation Evening",
         "description": "Curriculum pathway presentations, Q&A, and subject interaction booths. 6:30 – 8:30 PM at AIS Campus."
       },
@@ -711,6 +711,7 @@
     ]
   },
   "footer": {
+    "tagline": "Excellence in International Education · Rooted in Islamic Values",
     "schoolName": "Al-Rowad International Schools",
     "address": "An-Nuzhah, Riyadh 11673, KSA",
     "contact": "info@ais.sch.sa  |  +966 9200 13260"
@@ -734,11 +735,11 @@
 
   // ============ Event details (confirmed) ============
   // Used by countdown + Add-to-Calendar. If date changes, update here.
-  const EVENT_START = new Date('2026-05-03T18:30:00+03:00'); // 6:30 PM Riyadh
-  const EVENT_END = new Date('2026-05-03T20:30:00+03:00');
+  const EVENT_START = new Date('2026-05-04T18:30:00+03:00'); // 6:30 PM Riyadh
+  const EVENT_END = new Date('2026-05-04T20:30:00+03:00');
   const EVENT_TITLE = 'AIS Grade 9 Pathway Orientation Evening';
   const EVENT_LOCATION = 'Al-Rowad International Schools, An-Nuzhah, Riyadh';
-  const EVENT_DESCRIPTION = "Curriculum pathway presentations, Q&A session, and subject teachers' stalls. Choose between American (High School Diploma) and British (IGCSE / A-Level) pathways. Sunday, 3 May 2026, 6:30 – 8:30 PM.";
+  const EVENT_DESCRIPTION = "Curriculum pathway presentations, Q&A session, and subject teachers' stalls. Choose between American (High School Diploma) and British (IGCSE / A-Level) pathways. Monday, 4 May 2026, 6:30 – 8:30 PM.";
 
   const EMBLEM_RAW = document.getElementById('ais-emblem').textContent.trim();
   const EMBLEM = EMBLEM_RAW.startsWith('data:') ? EMBLEM_RAW : ('data:image/jpeg;base64,' + EMBLEM_RAW);
@@ -944,10 +945,10 @@
       <div>
         <div style={{ display: "flex", gap: 8, marginBottom: 20 }}>
           <button style={ts(track === "american")} onClick={() => setTrack("american")}>
-            <Editable value={j.tabBritish} onChange={v => update(['journey', 'tabBritish'], v)} />
+            <Editable value={j.tabAmerican} onChange={v => update(['journey', 'tabAmerican'], v)} />
           </button>
           <button style={ts(track === "british")} onClick={() => setTrack("british")}>
-            <Editable value={j.tabAmerican} onChange={v => update(['journey', 'tabAmerican'], v)} />
+            <Editable value={j.tabBritish} onChange={v => update(['journey', 'tabBritish'], v)} />
           </button>
         </div>
         <div style={{ position: "relative", paddingLeft: 28 }}>
@@ -1068,18 +1069,54 @@
   // ============ Pathway Comparison ============
   function PathwayComparison({ data, update }) {
     const p = data.pathways;
+    const bannerCell = (img) => ({
+      padding: 0,
+      height: 130,
+      verticalAlign: "bottom",
+      backgroundImage: `linear-gradient(180deg, rgba(12,45,84,0.30) 0%, rgba(12,45,84,0.55) 55%, rgba(12,45,84,0.92) 100%), url('${img}')`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+      borderBottom: `3px solid ${GOLD}`,
+    });
+    const bannerLabel = { padding: "10px 14px", color: GOLD, fontWeight: 700, fontSize: 16, letterSpacing: 0.3, textShadow: "0 1px 3px rgba(0,0,0,0.5)" };
+    const logoStripCell = { padding: "10px 12px", background: "#fff", borderBottom: `1px solid ${GOLD}40`, verticalAlign: "middle" };
+    const logoStripWrap = { display: "flex", flexWrap: "wrap", alignItems: "center", gap: 14, justifyContent: "flex-start" };
+    const logoImg = { height: 22, width: "auto", filter: "grayscale(20%)", opacity: 0.85 };
     return (
       <div style={{ overflowX: "auto" }}>
         <table style={{ width: "100%", borderCollapse: "collapse", fontSize: 13, minWidth: 580 }}>
           <thead>
             <tr>
-              <th style={{ padding: "12px 10px", background: NAVY, color: "#fff", textAlign: "left", width: "20%" }}></th>
-              <th style={{ padding: "12px 10px", background: NAVY, color: GOLD, textAlign: "left", fontWeight: 700 }}>
-                <Editable value={p.headerBritish} onChange={v => update(['pathways', 'headerBritish'], v)} />
+              <th style={{ padding: 0, height: 130, width: "20%", background: NAVY, verticalAlign: "middle", borderBottom: `3px solid ${GOLD}` }}>
+                <img src={EMBLEM} alt="AIS" style={{ width: 56, height: 56, display: "block", margin: "0 auto" }} />
               </th>
-              <th style={{ padding: "12px 10px", background: NAVY, color: GOLD, textAlign: "left", fontWeight: 700 }}>
-                <Editable value={p.headerAmerican} onChange={v => update(['pathways', 'headerAmerican'], v)} />
+              <th style={bannerCell('american_pathway_photo.png')}>
+                <div style={bannerLabel}>
+                  <Editable value={p.headerAmerican} onChange={v => update(['pathways', 'headerAmerican'], v)} />
+                </div>
               </th>
+              <th style={bannerCell('british_pathway_photo.png')}>
+                <div style={bannerLabel}>
+                  <Editable value={p.headerBritish} onChange={v => update(['pathways', 'headerBritish'], v)} />
+                </div>
+              </th>
+            </tr>
+            <tr>
+              <td style={{ ...logoStripCell, background: NAVY, borderBottom: `1px solid ${GOLD}` }}></td>
+              <td style={logoStripCell}>
+                <div style={logoStripWrap}>
+                  <img src="logo_sat.png" alt="SAT" style={logoImg} />
+                  <img src="logo_act.png" alt="ACT" style={logoImg} />
+                  <img src="logo_ap.png" alt="AP" style={logoImg} />
+                </div>
+              </td>
+              <td style={logoStripCell}>
+                <div style={logoStripWrap}>
+                  <img src="logo_cambridge.png" alt="Cambridge" style={logoImg} />
+                  <img src="logo_oxford_aqa.png" alt="Oxford AQA" style={logoImg} />
+                  <img src="logo_pearson_edexcel.png" alt="Pearson Edexcel" style={logoImg} />
+                </div>
+              </td>
             </tr>
           </thead>
           <tbody>
@@ -1117,14 +1154,15 @@
           ))}
         </div>
         <div style={{ display: "grid", gap: 12 }}>
-          <div style={{ background: "#fff", borderRadius: 10, padding: 16, border: "1px solid #e0d8c8", borderLeft: `4px solid ${NAVY}` }}>
-            <Editable as="h4" value={e.britishLabel} onChange={vv => update(['equivalency', 'britishLabel'], vv)}
+          {/* NOTE: data fields v.british / v.american are inverted (v.british holds American content, v.american holds British). Labels below read the matching key for clarity; data field rename is deferred. */}
+          <div style={{ background: "#fff", borderRadius: 10, padding: 16, border: "1px solid #e0d8c8", borderLeft: `4px solid ${GOLD}` }}>
+            <Editable as="h4" value={e.americanLabel} onChange={vv => update(['equivalency', 'americanLabel'], vv)}
               style={{ color: NAVY, margin: "0 0 8px", fontSize: 14 }} />
             <Editable as="p" multiline value={v.british} onChange={vv => update(['equivalency', 'countries', c, 'british'], vv)}
               style={{ fontSize: 13, color: "#444", margin: 0, lineHeight: 1.6 }} />
           </div>
-          <div style={{ background: "#fff", borderRadius: 10, padding: 16, border: "1px solid #e0d8c8", borderLeft: `4px solid ${GOLD}` }}>
-            <Editable as="h4" value={e.americanLabel} onChange={vv => update(['equivalency', 'americanLabel'], vv)}
+          <div style={{ background: "#fff", borderRadius: 10, padding: 16, border: "1px solid #e0d8c8", borderLeft: `4px solid ${NAVY}` }}>
+            <Editable as="h4" value={e.britishLabel} onChange={vv => update(['equivalency', 'britishLabel'], vv)}
               style={{ color: NAVY, margin: "0 0 8px", fontSize: 14 }} />
             <Editable as="p" multiline value={v.american} onChange={vv => update(['equivalency', 'countries', c, 'american'], vv)}
               style={{ fontSize: 13, color: "#444", margin: 0, lineHeight: 1.6 }} />
@@ -1415,26 +1453,40 @@
     const ss = { padding: "48px 16px 24px", maxWidth: 800, margin: "0 auto" };
     const fw = { ...ss, background: "#fff", maxWidth: "100%", padding: "48px 16px" };
 
+    const PhotoBand = ({ img, position = "center" }) => (
+      <div aria-hidden="true" style={{
+        height: 110,
+        backgroundImage: `linear-gradient(90deg, rgba(12,45,84,0.65) 0%, rgba(12,45,84,0.25) 50%, rgba(12,45,84,0.65) 100%), url('${img}')`,
+        backgroundSize: "cover",
+        backgroundPosition: position,
+        borderTop: `3px solid ${GOLD}`,
+        borderBottom: `3px solid ${GOLD}`,
+      }} />
+    );
+
     return (
       <div style={{ fontFamily: "'Poppins', sans-serif", background: LIGHT_BG, minHeight: "100vh", color: "#333" }}>
           <NavBar data={data} update={update} activeSection={as_} />
 
-          {/* Hero */}
-          <div style={{ background: GOLD, padding: "80px 16px 48px", textAlign: "center" }}>
-            <img src={EMBLEM} alt="AIS" style={{ width: 80, height: 80, marginBottom: 16 }} />
-            <Editable as="h1" value={data.hero.title} onChange={v => update(['hero', 'title'], v)}
-              style={{ color: NAVY, fontSize: 26, fontWeight: 800, margin: "0 0 4px" }} />
-            <Editable as="p" value={data.hero.subtitle} onChange={v => update(['hero', 'subtitle'], v)}
-              style={{ color: NAVY, fontSize: 16, fontWeight: 600, margin: "0 0 20px", opacity: 0.8 }} />
-            <Editable as="p" multiline value={data.hero.description} onChange={v => update(['hero', 'description'], v)}
-              style={{ color: NAVY, fontSize: 14, margin: "0 auto 24px", lineHeight: 1.6, maxWidth: 480, opacity: 0.85 }} />
-            <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
-              <a href="https://forms.gle/5jxSbPWD9rLgQn4h6" target="_blank" rel="noopener noreferrer" style={{ padding: "12px 24px", background: NAVY, color: "#fff", borderRadius: 8, textDecoration: "none", fontWeight: 700, fontSize: 14 }}>
-                <Editable value={data.hero.ctaPrimary} onChange={v => update(['hero', 'ctaPrimary'], v)} />
-              </a>
-              <a href="#pathways" style={{ padding: "12px 24px", background: "transparent", color: NAVY, borderRadius: 8, textDecoration: "none", fontWeight: 600, fontSize: 14, border: `2px solid ${NAVY}` }}>
-                <Editable value={data.hero.ctaSecondary} onChange={v => update(['hero', 'ctaSecondary'], v)} />
-              </a>
+          {/* Hero (booklet-cover treatment: navy field, watermark emblem, gold text) */}
+          <div style={{ position: "relative", background: `linear-gradient(180deg, ${NAVY} 0%, #08203d 100%)`, padding: "88px 16px 56px", textAlign: "center", overflow: "hidden" }}>
+            <img src={EMBLEM} alt="" aria-hidden="true" style={{ position: "absolute", top: "50%", left: "50%", width: 520, height: 520, transform: "translate(-50%, -50%)", opacity: 0.07, pointerEvents: "none" }} />
+            <div style={{ position: "relative" }}>
+              <img src={EMBLEM} alt="AIS" style={{ width: 104, height: 104, marginBottom: 18, filter: "drop-shadow(0 6px 14px rgba(0,0,0,0.35))" }} />
+              <Editable as="h1" value={data.hero.title} onChange={v => update(['hero', 'title'], v)}
+                style={{ color: GOLD, fontSize: 28, fontWeight: 800, margin: "0 0 6px", letterSpacing: 0.4 }} />
+              <Editable as="p" value={data.hero.subtitle} onChange={v => update(['hero', 'subtitle'], v)}
+                style={{ color: "#fff", fontSize: 16, fontWeight: 600, margin: "0 0 22px", opacity: 0.92 }} />
+              <Editable as="p" multiline value={data.hero.description} onChange={v => update(['hero', 'description'], v)}
+                style={{ color: "#e9eef5", fontSize: 14, margin: "0 auto 28px", lineHeight: 1.6, maxWidth: 480, opacity: 0.88 }} />
+              <div style={{ display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+                <a href="https://forms.gle/5jxSbPWD9rLgQn4h6" target="_blank" rel="noopener noreferrer" style={{ padding: "12px 24px", background: GOLD, color: NAVY, borderRadius: 8, textDecoration: "none", fontWeight: 700, fontSize: 14 }}>
+                  <Editable value={data.hero.ctaPrimary} onChange={v => update(['hero', 'ctaPrimary'], v)} />
+                </a>
+                <a href="#pathways" style={{ padding: "12px 24px", background: "transparent", color: GOLD, borderRadius: 8, textDecoration: "none", fontWeight: 600, fontSize: 14, border: `2px solid ${GOLD}` }}>
+                  <Editable value={data.hero.ctaSecondary} onChange={v => update(['hero', 'ctaSecondary'], v)} />
+                </a>
+              </div>
             </div>
           </div>
 
@@ -1481,6 +1533,9 @@
             </div>
           </section>
 
+          {/* Photo separator: About -> Pathways */}
+          <PhotoBand img="american_pathway_photo.png" position="center 40%" />
+
           {/* Pathways */}
           <section id="pathways" style={fw}>
             <div style={{ maxWidth: 800, margin: "0 auto" }}>
@@ -1490,6 +1545,9 @@
               <PathwayComparison data={data} update={update} />
             </div>
           </section>
+
+          {/* Photo separator: Pathways -> Journey */}
+          <PhotoBand img="british_pathway_photo.png" position="center 60%" />
 
           {/* Journey */}
           <section id="journey" style={ss}>
@@ -1625,14 +1683,16 @@
           </section>
 
           {/* Footer */}
-          <footer style={{ background: NAVY, padding: "24px 16px", textAlign: "center" }}>
-            <img src={EMBLEM} alt="AIS" style={{ width: 40, height: 40, marginBottom: 8 }} />
+          <footer style={{ background: NAVY, padding: "28px 16px", textAlign: "center", borderTop: `3px solid ${GOLD}` }}>
+            <img src={EMBLEM} alt="AIS" style={{ width: 44, height: 44, marginBottom: 10 }} />
+            <Editable as="p" value={data.footer.tagline} onChange={v => update(['footer', 'tagline'], v)}
+              style={{ color: GOLD, fontSize: 12, fontWeight: 700, letterSpacing: 0.4, margin: "0 0 12px" }} />
             <Editable as="p" value={data.footer.schoolName} onChange={v => update(['footer', 'schoolName'], v)}
-              style={{ color: "rgba(255,255,255,0.6)", fontSize: 12, margin: "0 0 4px" }} />
+              style={{ color: "rgba(255,255,255,0.7)", fontSize: 12, margin: "0 0 4px" }} />
             <Editable as="p" value={data.footer.address} onChange={v => update(['footer', 'address'], v)}
-              style={{ color: "rgba(255,255,255,0.4)", fontSize: 11, margin: "0 0 4px" }} />
+              style={{ color: "rgba(255,255,255,0.45)", fontSize: 11, margin: "0 0 4px" }} />
             <Editable as="p" value={data.footer.contact} onChange={v => update(['footer', 'contact'], v)}
-              style={{ color: "rgba(255,255,255,0.3)", fontSize: 11, margin: 0 }} />
+              style={{ color: "rgba(255,255,255,0.35)", fontSize: 11, margin: 0 }} />
           </footer>
 
           <a href="https://forms.gle/5jxSbPWD9rLgQn4h6" target="_blank" rel="noopener noreferrer" style={{ position: "fixed", bottom: 20, right: 20, height: 48, borderRadius: 24, background: GOLD, display: "flex", alignItems: "center", justifyContent: "center", boxShadow: "0 4px 14px rgba(12,45,84,0.3)", textDecoration: "none", fontSize: 13, fontWeight: 800, zIndex: 90, color: NAVY, padding: "0 22px", gap: 6, border: `2px solid ${NAVY}` }}>📝 Apply Now</a>
